@@ -1,0 +1,44 @@
+public class LibraryMember {
+
+    private String memberId;
+    private int borrowLimit;
+    private int booksBorrowed;
+
+    public LibraryMember(String memberId, int borrowLimit) {
+        if (memberId == null || memberId.trim().isEmpty() || memberId.length() < 4) {
+            throw new IllegalArgumentException(
+                    "memberId must be non-blank and at least 4 characters long: '" + memberId + "'");
+        }
+        this.memberId = memberId;
+        this.borrowLimit = borrowLimit;
+        this.booksBorrowed = 0;
+    }
+    public void borrowBook() {
+        booksBorrowed++;
+    }
+    public int getBooksBorrowed() {
+        return booksBorrowed;
+    }
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public int getBorrowLimit() {
+        return borrowLimit;
+    }
+    public static String enrollBatch(String[] memberIds, int borrowLimit) {
+        int enrolled = 0;
+        int rejected = 0;
+
+        for (String id : memberIds) {
+            try {
+                new LibraryMember(id, borrowLimit);
+                enrolled++;
+            } catch (IllegalArgumentException e) {
+                rejected++;
+            }
+        }
+
+        return "Enrolled: " + enrolled + " | Rejected: " + rejected;
+    }
+}
